@@ -1,4 +1,39 @@
 Studenttransport::Application.routes.draw do
+  
+
+  resources :tickets
+
+
+  devise_for :admins
+  
+
+  devise_for :users
+
+
+  resources :emails
+
+
+  resources :reservations
+
+
+  resources :admins
+
+
+  resources :users
+
+
+  resources :trips
+
+
+  resources :routes
+
+
+  resources :sessions
+
+
+  root :to => "pages#home"
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

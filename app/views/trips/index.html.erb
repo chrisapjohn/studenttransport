@@ -1,0 +1,27 @@
+<h1>Listing trips</h1>
+
+<table>
+  <tr>
+    <td>Route</td>
+    <td>Going Away?</td>
+    <td>Departure Date/Time</td>
+    <td>Seats</td>
+    <td>Price</td>
+  </tr>
+
+<% @trips.each do |trip| %>
+  <tr>
+    <td><%= "#{trip.route.session.name} | #{trip.route.home_point} - #{trip.route.away_point}" %>
+    <td><%= trip.going_away %></td>
+    <td><%= trip.departure_date.strftime("%m/%d/%y %I:%M %p") %></td>
+    <td><%= trip.seats %></td>
+    <td><%= trip.price %></td>
+    <td><%= link_to 'Edit', edit_trip_path(trip) %></td>
+    <td><%= link_to 'Destroy', trip, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Trip', new_trip_path %>

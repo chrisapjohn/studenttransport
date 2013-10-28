@@ -1,0 +1,23 @@
+<h1>Transport Sessions</h1>
+
+<table>
+  <tr>
+    <td>Name</td>
+    <td>Reservations Opening Date</td>
+    <td>Display Order</td>
+  </tr>
+
+<% @sessions.each do |session| %>
+  <tr>
+    <td><%= session.name %></td>
+    <td><%= session.opening_date.strftime("%m/%d/%y %I:%M %p") %></td>
+    <td><%= session.display_order %></td>
+    <td><%= link_to 'Edit', edit_session_path(session) %></td>
+    <td><%= link_to 'Destroy', session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Session', new_session_path %>

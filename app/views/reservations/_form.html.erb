@@ -1,0 +1,23 @@
+<%= simple_form_for(@reservation) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-group">
+    <%= f.input :route_id, collection: Route.all, label_method: lambda { |route| "#{route.session.name} | #{route.home_point} - #{route.away_point}" }, include_blank: false %>
+  </div>
+
+  <div class="form-group">
+    <%= f.input :going_away %>
+  </div>
+
+  <div class="form-group">
+    <%= f.input :departure_date, as: :datetime, start_year: Date.today.year, end_year: Date.today.year + 4, order: [:year, :month, :day, :hour, :minute], ampm: false, minute_step: 15  %>
+  </div>
+
+  <div class="form-group">
+    <%= f.input :seats %>
+  </div>
+
+  <div class="form-group">
+    <%= f.button :submit %>
+  </div>
+<% end %>

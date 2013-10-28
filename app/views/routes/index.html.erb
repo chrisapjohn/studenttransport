@@ -1,0 +1,27 @@
+<h1>Routes</h1>
+
+<table>
+  <tr>
+    <td>Transport Session</td>
+    <td>Home Point</td>
+    <td>Away Point</td>
+    <td>Price ($)</td>
+    <td>Schedule Order</td>
+  </tr>
+
+<% @routes.each do |route| %>
+  <tr>
+    <td><%= route.session.name %></td>
+    <td><%= route.home_point %></td>
+    <td><%= route.away_point %></td>
+    <td><%= route.price %></td>
+    <td><%= route.schedule_order %></td>
+    <td><%= link_to 'Edit', edit_route_path(route) %></td>
+    <td><%= link_to 'Destroy', route, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Route', new_route_path %>
