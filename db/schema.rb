@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131028063935) do
+ActiveRecord::Schema.define(:version => 20131028194912) do
 
   create_table "admins", :force => true do |t|
     t.datetime "created_at",                             :null => false
@@ -41,13 +41,8 @@ ActiveRecord::Schema.define(:version => 20131028063935) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "reservations", :force => true do |t|
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-    t.integer  "trip_id"
-    t.integer  "user_id"
-    t.integer  "number_of_tickets"
-  end
+# Could not dump table "reservations" because of following StandardError
+#   Unknown type 'array' for column 'tickets'
 
   create_table "routes", :force => true do |t|
     t.datetime "created_at",     :null => false
@@ -72,12 +67,13 @@ ActiveRecord::Schema.define(:version => 20131028063935) do
   end
 
   create_table "tickets", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.integer  "user_id"
     t.integer  "trip_id"
     t.decimal  "price"
     t.integer  "quantity"
+    t.integer  "reservation_id"
   end
 
   create_table "trips", :force => true do |t|

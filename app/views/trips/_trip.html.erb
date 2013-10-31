@@ -1,4 +1,6 @@
-<li class="list-group-item">
-		<strong><%= trip.departure_date.strftime("%A, %B %d, %I:%M %p") %></strong>
-		<%= link_to "Add Trip", "#", class: "btn btn-default" %>
-</li>
+<tr>
+	<td><ul><li>
+		<%= trip.departure_date.strftime("%A, %B %d, %I:%M %p") %>
+		<%= check_box_tag 'reservation[tickets_attributes][]', trip_id: trip.id %>
+	</li></ul></td>
+</tr>

@@ -1,14 +1,14 @@
 Studenttransport::Application.routes.draw do
-  
-
-  resources :tickets
-
+ 
 
   devise_for :admins
   
 
   devise_for :users
 
+
+  resources :tickets
+  
 
   resources :emails
 
@@ -32,6 +32,11 @@ Studenttransport::Application.routes.draw do
 
 
   root :to => "pages#home"
+
+
+  devise_scope :user do 
+    match '/sessions/user', to: 'devise/sessions#create', via: :post
+  end
 
 
   # The priority is based upon order of creation:

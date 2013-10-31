@@ -1,6 +1,7 @@
 class ReservationsController < ApplicationController
   # GET /reservations
   # GET /reservations.json
+
   def index
     @reservations = Reservation.all
 
@@ -11,14 +12,14 @@ class ReservationsController < ApplicationController
   end
 
   def add_to_reservation
-    current_reservation.add_item(params[:trip_id])
+    current_reservation.add_ticket(params[:trip_id])
     redirect_to reservations_path(current_reservation.id)
   end
 
   # GET /reservations/1
   # GET /reservations/1.json
   def show
-    @reservation = current_reservation
+    @reservation = Reservation.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

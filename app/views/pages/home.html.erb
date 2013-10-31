@@ -1,2 +1,13 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    Welcome to Gambier Coach, the original student-run transportation service at Kenyon. We have used luxury motor coaches to transport students to and from Columbus airport during breaks in the academic year for the past six years. Our buses provide students with a spacious, air conditioned ride including bathroom, extensive luggage storage and reclining seats. Tickets are $25 each.
+  </div>
+</div>
 
-<%= render @sessions.sort_by(&:display_order) %>
+<%= form_tag new_reservation_path, method: :get do %>
+
+	<%= render @sessions.sort_by(&:display_order) %>
+
+	<%= submit_tag "Book Selected Trips" %>
+
+<% end %>

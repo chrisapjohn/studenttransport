@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -7,14 +7,15 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-                  <a class="navbar-brand", href="/">Gambier Coach</a>
+                  <a class="navbar-brand", href="/"></a>
           </div>
 
           <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
-                    <li><%= link_to "Book Tickets", new_reservation_path %></li>
+                    <li><%= link_to "", root_path %></li>
+                    <li><%= link_to "", "#" %></li>
                     <% if current_user %>
-                            <li><%= link_to "Logout #{current_user.name}", destroy_user_session_path, :method => :delete %></li>
+                            <li><%= link_to "Logout #{current_user.email}", destroy_user_session_path, :method => :delete %></li>
                     <% else %>
                             <li><%= link_to "Sign in", new_user_session_path %>
                     <% end %>
