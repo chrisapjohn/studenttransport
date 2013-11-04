@@ -8,8 +8,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :user
 
   def fetch_price
-  	self.price = self.trip.price
-  	self.save
+  	self.price = self.trip.price.to_i
   end
   
 end

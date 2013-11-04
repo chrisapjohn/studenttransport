@@ -7,24 +7,10 @@ class Reservation < ActiveRecord::Base
 
   accepts_nested_attributes_for :tickets
 
-  #Create new reservation
-  #Create new ticket(s), pass in trip_id(s) and current_reservation id
-
-
-  def add_ticket(trip)
-  	existing_ticket = self.tickets.where(:trip_id => trip).first
-  	if existing_ticket
-  		existing_ticket.quantity = existing_ticket.quantity + 1
-  		existing_ticket.save
-  		self.save
-  	else
-  		self.tickets << Ticket.new(trip_id: trip, quantity: 1)
-  		self.save
-  	end
-  end
+  attr_accessor :stripe_card_token
 
   def total_price
-  	tickets.to_a.sum(&:price)
+  	self.tickets.to_a.sum(&:price)
   end
   
 end

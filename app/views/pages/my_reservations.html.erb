@@ -1,0 +1,28 @@
+<% @reservations.each do |reservation| %>
+	
+	<% reservation.tickets.each do |ticket| %>
+
+		<div class="panel panel-default">
+		
+			<div class="panel-heading">Ticket #<%= ticket.id %>
+			</div>
+		
+				<div class="panel-body">
+
+					<p><%= ticket.trip.departure_date.strftime("%A, %B %d, %I:%M %p") %></p>
+
+					<p><%= "#{ticket.trip.route.home_point} to #{ticket.trip.route.away_point}" %></p>
+
+				</div>
+
+			<div class="panel-footer">
+
+		 		<%= link_to "Cancel Ticket (Full Refund)", ticket, method: :delete, data: { confirm: 'Are you sure?' } %>
+
+			</div>
+
+		</div>
+
+	<% end %>
+
+<% end %>

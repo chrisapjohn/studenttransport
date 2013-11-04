@@ -34,6 +34,9 @@ Studenttransport::Application.routes.draw do
   root :to => "pages#home"
 
 
+  get '/pages/my_reservations', to: 'pages#my_reservations'
+
+
   devise_scope :user do 
     match '/sessions/user', to: 'devise/sessions#create', via: :post
   end

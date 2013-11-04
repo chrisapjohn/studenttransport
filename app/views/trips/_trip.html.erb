@@ -1,6 +1,6 @@
 <tr>
 	<td><ul><li>
 		<%= trip.departure_date.strftime("%A, %B %d, %I:%M %p") %>
-		<%= check_box_tag 'reservation[tickets_attributes][]', trip_id: trip.id %>
+		<%= check_box_tag 'trip_ids[]', trip.id %>
 	</li></ul></td>
 </tr>

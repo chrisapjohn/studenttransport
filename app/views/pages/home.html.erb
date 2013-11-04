@@ -4,10 +4,12 @@
   </div>
 </div>
 
-<%= form_tag new_reservation_path, method: :get do %>
+<%= form_tag new_reservation_path, id: "reserveForm", method: :get do %>
 
 	<%= render @sessions.sort_by(&:display_order) %>
 
-	<%= submit_tag "Book Selected Trips" %>
+	<%= submit_tag "Book Selected Trips >>", class: "btn btn-success btn-lg", id: "bookTrips" %>
+
+	<p></p>
 
 <% end %>

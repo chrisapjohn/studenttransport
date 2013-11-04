@@ -1,13 +1,108 @@
 <%= simple_form_for(@reservation) do |f| %>
   <%= f.error_notification %>
 
-  <%= debug params %>
+  <p> You have selected the following tickets:</p>
+    
+    <% @reservation.tickets.each do |ticket| %>
+    
+      <div class="row">
 
-  <%= params[:trip_id] %>
+        <div class="col-md-6">
 
-  <%= f.hidden_field :trip_id, value: params[:trip_id] %>
+          <div class="panel panel-default">
+              
+            <div class="panel-body">
+
+              <p>
+
+                <%= ticket.trip.departure_date.strftime("%A, %B %d, %I:%M %p") %>
+
+              </p>
+
+              <p>
+
+                <%= "#{ticket.trip.route.home_point} to #{ticket.trip.route.away_point}" %>
+
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    
+    <% end %>
+
+  <p>
+    
+    Total price: $<%= @reservation.total_price %>
+  
+  </p>
+
+  <%= f.hidden_field :stripe_card_token %>
+
+  <% if current_user.stripe_customer_id %>
+
+    <p>
+      Credit card on file *<%= @cards.first.last4 %>
+    </p>
+
+  <% else %>
+
+      <div class="row">
+
+        <div class="col-xs-8">
+
+          <div class="form-group">
+            <%= label_tag :card_number, "Credit Card Number" %>
+            <%= text_field_tag :card_number, nil, name: nil, class: "form-control", placeholder: "**** **** **** ****" %>
+          </div>
+
+        </div>
+        
+        <div class="col-xs-4">
+
+          <div class="form-group">
+            <%= label_tag :card_code, "Card Code" %>
+            <%= text_field_tag :card_code, nil, name: nil, class: "form-control", placeholder: "CVC" %>
+          </div>
+        
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-xs-8">
+
+          <div class="form-group">
+            <%= label_tag :card_month, "Expiration Month" %>
+            <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", class: "form-control"} %>
+          </div>
+
+        </div>
+
+        <div class="col-xs-4">
+
+          <div class="form-group">
+            <%= label_tag :card_month, "Year" %>
+            <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: "form-control"} %>
+          </div>
+
+        </div>
+
+      </div>
+
+  <% end %>
+
+  <div id="stripe_error">
+    <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+  </div>
 
   <div class="form-group">
-    <%= f.button :submit %>
+    <%= f.submit("Complete Reservation", class: "btn btn-success btn-lg") %>
   </div>
+
 <% end %>

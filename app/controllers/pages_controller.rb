@@ -6,4 +6,8 @@ class PagesController < ApplicationController
 		@trips = Trip.all
 	end
 
+	def my_reservations
+    	@reservations = current_user.reservations.all
+	end
+
 end

@@ -41,6 +41,7 @@ class TicketsController < ApplicationController
   # POST /tickets.json
   def create
     @ticket = Ticket.new(params[:ticket])
+    @ticket.price = @ticket.trip.price.to_i
 
     respond_to do |format|
       if @ticket.save
@@ -73,11 +74,28 @@ class TicketsController < ApplicationController
   # DELETE /tickets/1.json
   def destroy
     @ticket = Ticket.find(params[:id])
-    @ticket.destroy
+    charge = Stripe::Charge.retrieve(@ticket.reservation.charge_id)
+
+    #Refund via Stripe
+    charge.refund(amount: @ticket.price.to_i*100)
+    
+    #Check to see if this is the only ticket in the reservation
+    if @ticket.reservation.tickets.count == 1
+      @ticket.reservation.destroy
+    else
+      @ticket.destroy
+    end
 
     respond_to do |format|
-      format.html { redirect_to tickets_url }
+      format.html { redirect_to pages_my_reservations_path }
       format.json { head :no_content }
     end
   end
 end
+
+
+
+
+
+
+
