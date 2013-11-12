@@ -4,6 +4,6 @@ class Route < ActiveRecord::Base
 
   belongs_to :session
 
-  has_many :trips
+  has_many :trips, order: "departure_date ASC"
 
 end

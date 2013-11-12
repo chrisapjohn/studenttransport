@@ -7,7 +7,7 @@ class Reservation < ActiveRecord::Base
 
   accepts_nested_attributes_for :tickets
 
-  attr_accessor :stripe_card_token
+  attr_accessor :stripe_card_token  
 
   def total_price
   	self.tickets.to_a.sum(&:price)

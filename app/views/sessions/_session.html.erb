@@ -1,16 +1,13 @@
-<p><h4><%= session.name %></h4></p>
+<h4><%= session.name %></h4>
 
 <% session.routes.each do |route| %>
-	<div class="row">
-		<div class="col-md-8">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<%= "#{route.home_point} to #{route.away_point}" %>
-				</div>
-					<table class="table table-hover">
-						<%= render route.trips.sort_by(&:departure_date) %>
-					</table>
-			</div>
-		</div>
-	</div>
+	
+	<p><b><%= "#{route.home_point} to #{route.away_point}" %></b></p>
+
+		<% route.trips.each do |trip| %>
+
+			<p style="text-indent: 20px"><%= render trip %></p>
+
+	<% end %>
+
 <% end %>

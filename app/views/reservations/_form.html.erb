@@ -1,33 +1,37 @@
 <%= simple_form_for(@reservation) do |f| %>
   <%= f.error_notification %>
 
+<div class="row">
+
+  <div class="col-md-6">
+
   <p> You have selected the following tickets:</p>
     
     <% @reservation.tickets.each do |ticket| %>
     
-      <div class="row">
+      <div class="panel panel-default">
+          
+        <div class="panel-body">
 
-        <div class="col-md-6">
+          <p>
 
-          <div class="panel panel-default">
-              
-            <div class="panel-body">
+            <strong><%= ticket.trip.departure_date.strftime("%A, %B %d, %I:%M %p") %></strong>
 
-              <p>
+          </p>
 
-                <%= ticket.trip.departure_date.strftime("%A, %B %d, %I:%M %p") %>
+          <p>
 
-              </p>
+            <strong><%= "#{ticket.trip.route.home_point} to #{ticket.trip.route.away_point}" %></strong>
 
-              <p>
+          </p>
 
-                <%= "#{ticket.trip.route.home_point} to #{ticket.trip.route.away_point}" %>
+          <p>
 
-              </p>
+            I agree to the terms and volunteer to be a Student Conductor <%= check_box_tag "conductor_volunteer[]", true, false %>
 
-            </div>
+            <%= hidden_field_tag "selected_tickets[]", ticket.id %>
 
-          </div>
+          </p>
 
         </div>
 
@@ -37,7 +41,7 @@
 
   <p>
     
-    Total price: $<%= @reservation.total_price %>
+    <strong>Total price: $<%= @reservation.total_price %></strong>
   
   </p>
 
@@ -45,64 +49,91 @@
 
   <% if current_user.stripe_customer_id %>
 
+    <% @cards.each do |card| %>
+
+      <p>
+        <%= radio_button_tag 'use_card', card.id %>
+        Use <%= card.type %>: *<%= card.last4 %>
+      </p>
+
+    <% end %>
+
     <p>
-      Credit card on file *<%= @cards.first.last4 %>
+      <%= radio_button_tag 'use_card', 1 %> Enter a new card
     </p>
 
-  <% else %>
-
-      <div class="row">
-
-        <div class="col-xs-8">
-
-          <div class="form-group">
-            <%= label_tag :card_number, "Credit Card Number" %>
-            <%= text_field_tag :card_number, nil, name: nil, class: "form-control", placeholder: "**** **** **** ****" %>
-          </div>
-
-        </div>
-        
-        <div class="col-xs-4">
-
-          <div class="form-group">
-            <%= label_tag :card_code, "Card Code" %>
-            <%= text_field_tag :card_code, nil, name: nil, class: "form-control", placeholder: "CVC" %>
-          </div>
-        
-        </div>
-
-      </div>
-
-      <div class="row">
-
-        <div class="col-xs-8">
-
-          <div class="form-group">
-            <%= label_tag :card_month, "Expiration Month" %>
-            <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", class: "form-control"} %>
-          </div>
-
-        </div>
-
-        <div class="col-xs-4">
-
-          <div class="form-group">
-            <%= label_tag :card_month, "Year" %>
-            <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: "form-control"} %>
-          </div>
-
-        </div>
-
-      </div>
-
   <% end %>
+
+    <div class="panel panel-default" id="credit-card-form">
+                
+      <div class="panel-body">
+
+        <div class="row">
+
+          <div class="col-xs-8">
+
+            <div class="form-group">
+              <%= label_tag :card_number, "Credit Card Number" %>
+              <%= text_field_tag :card_number, nil, name: nil, class: "form-control", placeholder: "**** **** **** ****" %>
+            </div>
+
+          </div>
+          
+          <div class="col-xs-4">
+
+            <div class="form-group">
+              <%= label_tag :card_code, "Card Code" %>
+              <%= text_field_tag :card_code, nil, name: nil, class: "form-control", placeholder: "CVC" %>
+            </div>
+          
+          </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-xs-8">
+
+            <div class="form-group">
+              <%= label_tag :card_month, "Expiration Month" %>
+              <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", class: "form-control"} %>
+            </div>
+
+          </div>
+
+          <div class="col-xs-4">
+
+            <div class="form-group">
+              <%= label_tag :card_month, "Year" %>
+              <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: "form-control"} %>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
 
   <div id="stripe_error">
     <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
   </div>
 
-  <div class="form-group">
-    <%= f.submit("Complete Reservation", class: "btn btn-success btn-lg") %>
+      <div class="form-group">
+        <%= f.submit("Complete Reservation", class: "btn btn-success btn-lg btn-block") %>
+      </div>
+
+    </div>
+
+    </div>
+
+    <%= link_to 'Back', root_path %>
+
   </div>
 
+</div>
+
 <% end %>
+
+

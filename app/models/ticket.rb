@@ -1,5 +1,5 @@
 class Ticket < ActiveRecord::Base
-  attr_accessible :user_id, :trip_id, :price, :quantity, :reservation_id
+  attr_accessible :user_id, :trip_id, :price, :quantity, :reservation_id, :conductor_volunteer, :conductor_status
 
   belongs_to :trip
 

@@ -66,15 +66,18 @@ class ReservationsController < ApplicationController
   # POST /reservations.json
   def create
     @reservation = Reservation.new
-    
     @user = current_user
-
     stripe_card_token = params["reservation"]["stripe_card_token"]
+    selected_tickets = params[:selected_tickets].collect(&:to_i)
 
+
+    #Build the tickets based on selected trips
     session["trip_ids"].each do |trip_id|
-      @reservation.tickets.build(trip_id: trip_id, user_id: current_user.id, reservation_id: @reservation.id)
+      @reservation.tickets.build(trip_id: trip_id, user_id: current_user.id, reservation_id: @reservation.id, conductor_volunteer: params["conductor_volunteer"])
     end
     
+
+
     @reservation.tickets.each do |ticket|
       ticket.fetch_price
     end
@@ -91,7 +94,8 @@ class ReservationsController < ApplicationController
       charge = Stripe::Charge.create(
         :amount   => @reservation.total_price.to_i*100, # in cents
         :currency => "usd",
-        :customer => customer_id
+        :customer => customer_id,
+        :card => params["use_card"]
       )
 
       #Save the Charge ID
@@ -101,7 +105,8 @@ class ReservationsController < ApplicationController
 
       #Create a Customer
       customer = Stripe::Customer.create(
-        :card => stripe_card_token
+        :card => stripe_card_token,
+        :email => @user.email
       )
 
       #Charge the Customer
@@ -124,7 +129,7 @@ class ReservationsController < ApplicationController
 
     respond_to do |format|
       if @reservation.save
-        format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
+        format.html { redirect_to pages_my_reservations_path, notice: 'Reservation was successfully created.' }
         format.json { render json: @reservation, status: :created, location: @reservation }
       else
         format.html { render action: "new" }
