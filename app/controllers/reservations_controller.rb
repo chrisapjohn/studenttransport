@@ -68,15 +68,18 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new
     @user = current_user
     stripe_card_token = params["reservation"]["stripe_card_token"]
-    selected_tickets = params[:selected_tickets].collect(&:to_i)
-
 
     #Build the tickets based on selected trips
     session["trip_ids"].each do |trip_id|
-      @reservation.tickets.build(trip_id: trip_id, user_id: current_user.id, reservation_id: @reservation.id, conductor_volunteer: params["conductor_volunteer"])
+      @reservation.tickets.build(trip_id: trip_id, user_id: current_user.id, reservation_id: @reservation.id)
     end
-    
 
+    #Update each Ticket with Student Conductor preference
+    params["reservation"]["tickets_attributes"].each do |t|
+      num = t[0].to_s
+      index = t[0].to_i
+      @reservation.tickets[index].conductor_volunteer = params["reservation"]["tickets_attributes"][num]["conductor_volunteer"]
+    end
 
     @reservation.tickets.each do |ticket|
       ticket.fetch_price

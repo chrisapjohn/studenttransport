@@ -2,11 +2,11 @@
 
 <% session.routes.each do |route| %>
 	
-	<p><b><%= "#{route.home_point} to #{route.away_point}" %></b></p>
+	<p style="text-indent: 20px"><b><u><%= "#{route.home_point} to #{route.away_point}" %></u></b></p>
 
 		<% route.trips.each do |trip| %>
 
-			<p style="text-indent: 20px"><%= render trip %></p>
+			<p style="text-indent: 40px"><%= render trip %></p>
 
 	<% end %>
 

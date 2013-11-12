@@ -40,7 +40,7 @@ class TicketsController < ApplicationController
   # POST /tickets
   # POST /tickets.json
   def create
-    @ticket = Ticket.new(params[:ticket])
+    @ticket = Ticket.new
     @ticket.price = @ticket.trip.price.to_i
 
     respond_to do |format|

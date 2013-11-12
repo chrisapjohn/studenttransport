@@ -1,5 +1,4 @@
-<%= simple_form_for(@reservation) do |f| %>
-  <%= f.error_notification %>
+<%= form_for(@reservation) do |f| %>
 
 <div class="row">
 
@@ -27,9 +26,13 @@
 
           <p>
 
-            I agree to the terms and volunteer to be a Student Conductor <%= check_box_tag "conductor_volunteer[]", true, false %>
+            I agree to the terms and volunteer to be a Student Conductor 
+            
+            <%= f.fields_for :tickets, ticket do |t| %>
+            
+              <%= t.check_box :conductor_volunteer %>
 
-            <%= hidden_field_tag "selected_tickets[]", ticket.id %>
+            <% end %>
 
           </p>
 
